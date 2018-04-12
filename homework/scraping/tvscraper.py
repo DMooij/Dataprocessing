@@ -56,8 +56,7 @@ def extract_tvseries(dom):
         tvactor = ','.join(tvactor)
         show.append(tvactor)
 
-        runtime = serie.find(class_="runtime").text
-        runtime = runtime.strip("min")
+        runtime = serie.find(class_="runtime").text.strip("min")
         show.append(runtime)
 
         # add show list to tvseries list
