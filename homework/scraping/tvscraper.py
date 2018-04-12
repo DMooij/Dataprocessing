@@ -45,8 +45,7 @@ def extract_tvseries(dom):
         rating = float(serie.strong.text)
         show.append(rating)
 
-        genre = serie.find(class_="genre").text
-        genre = genre.strip()
+        genre = serie.find(class_="genre").text.strip()
         show.append(genre)
 
         # add all actors to the show list as one item tvactor
