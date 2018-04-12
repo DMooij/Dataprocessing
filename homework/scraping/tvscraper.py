@@ -49,6 +49,7 @@ def extract_tvseries(dom):
         genre = genre.strip()
         show.append(genre)
 
+        # add all actors to the show list as one item tvactor
         tvactor = []
         actors = serie.select("p > a")
         for actor in actors:
