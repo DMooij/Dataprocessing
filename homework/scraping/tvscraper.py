@@ -15,7 +15,6 @@ TARGET_URL = "http://www.imdb.com/search/title?num_votes=5000,&sort=user_rating,
 BACKUP_HTML = 'tvseries.html'
 OUTPUT_CSV = 'tvseries.csv'
 
-
 def extract_tvseries(dom):
     """
     Extract a list of highest rated TV series from DOM (of IMDB page).
@@ -27,19 +26,19 @@ def extract_tvseries(dom):
     - Runtime (only a number!)
     """
 
-    # ADD YOUR CODE HERE TO EXTRACT THE ABOVE INFORMATION ABOUT THE
-    # HIGHEST RATED TV-SERIES
-    # NOTE: FOR THIS EXERCISE YOU ARE ALLOWED (BUT NOT REQUIRED) TO IGNORE
-    # UNICODE CHARACTERS AND SIMPLY LEAVE THEM OUT OF THE OUTPUT.
-
+    # find all tvseries information in the dom
     seriestv = dom.find_all(class_="lister-item mode-advanced")
 
+    # list to store the tv shows
     tvseries = []
 
+    # iterate over the series
     for serie in seriestv:
 
+        # list to store all information per show
         show = []
 
+        # find information and add to show list
         title = serie.h3.a.text
         show.append(title)
 
@@ -61,6 +60,7 @@ def extract_tvseries(dom):
         runtime = runtime.strip("min")
         show.append(runtime)
 
+        # add show list to tvseries list
         tvseries.append(show)
 
     return tvseries
@@ -73,6 +73,7 @@ def save_csv(outfile, tvseries):
     writer = csv.writer(outfile)
     writer.writerow(['Title', 'Rating', 'Genre', 'Actors', 'Runtime'])
 
+    # write information per show to output csv file
     for serie in tvseries:
         writer.writerow(serie)
 
