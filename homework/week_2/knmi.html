@@ -381,29 +381,116 @@
     20001231,-1
   </textarea>
 
+  <label for = "idOfCanvas"><br> KNMI average temperature in 2000 graph</br>
+
+  <canvas id="myCanvas" width = "1000" height= "500"></canvas>
+
+  </label>
+
   <script type="text/javascript">
 
     // get rawdata and split by lines
     let data = document.getElementById("rawdata").outerHTML.split("\n");
-    console.log(data);
 
-    let array = [];
+    let datelist = [];
+    let templist = [];
 
-    // split lines by comma and push datapoints to array
+    // split lines by comma
     for (let i = 1; i < data.length - 1; i++) {
       let comma = data[i].split(",");
-      console.log(comma);
-      array.push(comma);
+
+      let datum = comma[0].trim();
+      let temp = parseInt(comma[1]);
+
+      // convert date strings to javascript dates
+      let year = datum.slice(0, 4);
+      let month = datum.slice(4, 6) - 1;
+      let day = datum.slice(6, 8);
+      let date = new Date(year, month, day);
+
+      datelist.push(date);
+      templist.push(temp);
     }
 
-     console.log(array);
+    console.log(datelist);
+    console.log(templist);
 
-    //  joinen naar een array
+    // initialize canvas
+    let canvas = document.getElementById("myCanvas");
+    let ctx = canvas.getContext("2d");
+    ctx.fillStyle = "rgb(0,0,0)";
+    ctx.lineWidth = 5;
 
-    // dateString
+    // draw y-axis temperature
+    ctx.beginPath();
+    ctx.moveTo(20,20);
+    ctx.lineTo(20,500);
+    ctx.stroke();
+    ctx.fillText("Temperature", 0, 10);
 
-    // temperaturen als nummers niet strings
-    // max vinden met strings lukt niet
+    // draw x-axis date
+    ctx.beginPath();
+    ctx.moveTo(20,500);
+    ctx.lineTo(800,500);
+    ctx.stroke();
+    ctx.fillText("Date", 810, 500);
+    //
+    // min en max temperatuur
+    let mintemp = Math.min.apply(Math, templist);
+    let maxtemp = Math.max.apply(Math, templist);
+
+    var domaintemp = [mintemp, maxtemp];
+    var rangetemp = [20, 500];
+    //
+    var transfTemp = createTransform(domaintemp, rangetemp);
+    for (var y = 0; y < templist.length; y++){
+      transfTemp(y);
+    }
+    //
+    // min en max datum
+    let mindate = Math.min.apply(Math, datelist);
+    let maxdate = Math.max.apply(Math, datelist);
+
+    var domaindate = [mindate, maxdate];
+    var rangedate = [20, 800];
+    //
+    var transfDate = createTransform(domaindate, rangedate);
+    for (var x = 0; x < datelist.length; x++){
+      transfDate(x);
+    }
+    //
+    ctx.beginPath();
+    ctx.moveTo(20,500);
+    for (var draw = 0; draw < 366; draw++) {
+      var y = transfTemp[draw];
+      var x = transfDate[draw];
+      ctx.lineTo(x, y);
+    }
+    ctx.stroke();
+
+
+    function createTransform(domain, range){
+	// domain is a two-element array of the data bounds [domain_min, domain_max]
+	// range is a two-element array of the screen bounds [range_min, range_max]
+	// this gives you two equations to solve:
+	// range_min = alpha * domain_min + beta
+	// range_max = alpha * domain_max + beta
+ 		// a solution would be:
+
+    var domain_min = domain[0];
+    var domain_max = domain[1];
+    var range_min = range[0];
+    var range_max = range[1];
+
+    // formulas to calculate the alpha and the beta
+   	var alpha = (range_max - range_min) / (domain_max - domain_min);
+    var beta = range_max - alpha * domain_max;
+
+    // returns the function for the linear transformation (y= a * x + b)
+    return function(x){
+      return alpha * x + beta;
+    }
+}
 
   </script>
 
