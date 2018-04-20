@@ -32,173 +32,173 @@
 
    function drawLine(data){
 
-   rawdata = data.split("\n");
+     rawdata = data.split("\n");
 
-   console.log(rawdata);
-   // create lists to store date and temperature
-   let datelist = [];
-   let templist = [];
+     console.log(rawdata);
+     // create lists to store date and temperature
+     let datelist = [];
+     let templist = [];
 
-   // split lines by comma
-   for (let i = 1; i < rawdata.length - 1; i++) {
-     let comma = rawdata[i].split(",");
+     // split lines by comma
+     for (let i = 1; i < rawdata.length - 1; i++) {
+       let comma = rawdata[i].split(",");
 
-     // store values separately
-     let datum = comma[0].trim();
-     let temp = parseInt(comma[1]);
+       // store values separately
+       let datum = comma[0].trim();
+       let temp = parseInt(comma[1]);
 
-     // if (isNaN(comma[2])){
-     //   continue;
-     // }
+       // if (isNaN(comma[2])){
+       //   continue;
+       // }
 
-     // convert date strings to javascript dates
-     let year = datum.slice(0, 4);
-     let month = datum.slice(4, 6) - 1;
-     let day = datum.slice(6, 8);
-     let date = new Date(year, month, day);
+       // convert date strings to javascript dates
+       let year = datum.slice(0, 4);
+       let month = datum.slice(4, 6) - 1;
+       let day = datum.slice(6, 8);
+       let date = new Date(year, month, day);
 
-     // add values to lists
-     datelist.push(date);
-     templist.push(temp);
-   }
+       // add values to lists
+       datelist.push(date);
+       templist.push(temp);
+     }
 
-   // initialize canvas
-   let canvas = document.getElementById("myCanvas");
-   let ctx = canvas.getContext("2d");
-   ctx.fillStyle = "rgb(0,0,0)";
+     // initialize canvas
+     let canvas = document.getElementById("myCanvas");
+     let ctx = canvas.getContext("2d");
+     ctx.fillStyle = "rgb(0,0,0)";
 
-   // draw Y axis temperature
-   ctx.beginPath();
-   ctx.moveTo(40,40);
-   ctx.lineTo(40,500);
-   ctx.stroke();
-   ctx.fillText("Temperature", 0, 20);
+     // draw Y axis temperature
+     ctx.beginPath();
+     ctx.moveTo(40,40);
+     ctx.lineTo(40,500);
+     ctx.stroke();
+     ctx.fillText("Temperature", 0, 20);
 
-   // draw X axis date
-   ctx.beginPath();
-   ctx.moveTo(40, 455.2);
-   ctx.lineTo(800, 455.2);
-   ctx.stroke();
-   ctx.fillText("Date", 810, 455.2);
+     // draw X axis date
+     ctx.beginPath();
+     ctx.moveTo(40, 455.2);
+     ctx.lineTo(800, 455.2);
+     ctx.stroke();
+     ctx.fillText("Date", 810, 455.2);
 
-   // calculate min and max for temperature
-   let mintemp = Math.min.apply(Math, templist);
-   let maxtemp = Math.max.apply(Math, templist);
+     // calculate min and max for temperature
+     let mintemp = Math.min.apply(Math, templist);
+     let maxtemp = Math.max.apply(Math, templist);
 
-   // determine domain and range for temperature
-   let domaintemp = [maxtemp, mintemp];
-   let rangetemp = [40, 500];
+     // determine domain and range for temperature
+     let domaintemp = [maxtemp, mintemp];
+     let rangetemp = [40, 500];
 
-   // transformation for temperature
-   let transfTemp = createTransform(domaintemp, rangetemp);
+     // transformation for temperature
+     let transfTemp = createTransform(domaintemp, rangetemp);
 
-   // calculate min and max for date
-   let mindate = Math.min.apply(Math, datelist);
-   let maxdate = Math.max.apply(Math, datelist);
+     // calculate min and max for date
+     let mindate = Math.min.apply(Math, datelist);
+     let maxdate = Math.max.apply(Math, datelist);
 
-   // determine domain and range for date
-   let domaindate = [mindate, maxdate];
-   let rangedate = [40, 800];
+     // determine domain and range for date
+     let domaindate = [mindate, maxdate];
+     let rangedate = [40, 800];
 
-   // transformation for date
-   let transfDate = createTransform(domaindate, rangedate);
+     // transformation for date
+     let transfDate = createTransform(domaindate, rangedate);
 
-   // draw line graph
-   ctx.beginPath();
-   ctx.moveTo(transfDate(datelist[0]),transfTemp(templist[0]));
-   for (let draw = 0; draw < datelist.length; draw++){
-     let xaxis = transfDate(datelist[draw]);
-     let yaxis = transfTemp(templist[draw]);
-     ctx.lineTo(xaxis, yaxis);
-   }
-   ctx.stroke();
+     // draw line graph
+     ctx.beginPath();
+     ctx.moveTo(transfDate(datelist[0]),transfTemp(templist[0]));
+     for (let draw = 0; draw < datelist.length; draw++){
+       let xaxis = transfDate(datelist[draw]);
+       let yaxis = transfTemp(templist[draw]);
+       ctx.lineTo(xaxis, yaxis);
+     }
+     ctx.stroke();
 
-   /* range temperature is 500 - 40 = 460 coordinates
-   * difference between min and max temperature is 287
-   * 460/287 = 1,6
-   * 28 * 1,6 = 44,8
-   * 500 - 44,8 --> 0 at 455.2
-   * mark point where X and Y meet as 0 */
-   ctx.beginPath();
-   ctx.moveTo(40, 455.2);
-   ctx.lineTo(30, 455.2)
-   ctx.stroke();
-   ctx.fillText("0", 10, 455.2);
+     /* range temperature is 500 - 40 = 460 coordinates
+     * difference between min and max temperature is 287
+     * 460/287 = 1,6
+     * 28 * 1,6 = 44,8
+     * 500 - 44,8 --> 0 at 455.2
+     * mark point where X and Y meet as 0 */
+     ctx.beginPath();
+     ctx.moveTo(40, 455.2);
+     ctx.lineTo(30, 455.2)
+     ctx.stroke();
+     ctx.fillText("0", 10, 455.2);
 
-   // Y axis marks min and max temperature
-   ctx.beginPath();
-   ctx.moveTo(40,40);
-   ctx.lineTo(30,40);
-   ctx.stroke();
-   ctx.fillText(maxtemp, 10, 40);
+     // Y axis marks min and max temperature
+     ctx.beginPath();
+     ctx.moveTo(40,40);
+     ctx.lineTo(30,40);
+     ctx.stroke();
+     ctx.fillText(maxtemp, 10, 40);
 
-   ctx.beginPath();
-   ctx.moveTo(40,500);
-   ctx.lineTo(30,500);
-   ctx.stroke();
-   ctx.fillText(mintemp, 10, 500);
+     ctx.beginPath();
+     ctx.moveTo(40,500);
+     ctx.lineTo(30,500);
+     ctx.stroke();
+     ctx.fillText(mintemp, 10, 500);
 
-   // marks on Y axis
-   let yzero = 455.2;
-   let yxzero = 40;
+     // marks on Y axis
+     let yzero = 455.2;
+     let yxzero = 40;
 
-   // lines to mark points at Y axis
-   ctx.beginPath();
-   for (let stripe = 0; stripe < 6; stripe++){
-     ctx.moveTo(yxzero, yzero);
-     ctx.lineTo(yxzero - 10, yzero);
-     yzero = yzero - 80;
-   }
-   ctx.stroke();
+     // lines to mark points at Y axis
+     ctx.beginPath();
+     for (let stripe = 0; stripe < 6; stripe++){
+       ctx.moveTo(yxzero, yzero);
+       ctx.lineTo(yxzero - 10, yzero);
+       yzero = yzero - 80;
+     }
+     ctx.stroke();
 
-   // Y axis labels
-   let ylabel = 455.2
-   let templabel = ["50", "100", "150", "200", "250"];
-   for (let label = 0; label < 5; label++){
-       ctx.fillText(templabel[label], 10, ylabel - 80);
-       ylabel = ylabel - 80;
-   }
+     // Y axis labels
+     let ylabel = 455.2
+     let templabel = ["50", "100", "150", "200", "250"];
+     for (let label = 0; label < 5; label++){
+         ctx.fillText(templabel[label], 10, ylabel - 80);
+         ylabel = ylabel - 80;
+     }
 
-   // coordinates starting point x axis
-   let xmax = 455.2;
-   let xmin = 40;
+     // coordinates starting point x axis
+     let xmax = 455.2;
+     let xmin = 40;
 
-   // lines down dividing the x axis into 12 months
-   ctx.beginPath();
-   for (let line = 0; line < 13; line++){
-     ctx.moveTo(xmin, xmax);
-     ctx.lineTo(xmin,xmax + 10);
-     xmin = xmin + 63.33;
-   }
-   ctx.stroke();
+     // lines down dividing the x axis into 12 months
+     ctx.beginPath();
+     for (let line = 0; line < 13; line++){
+       ctx.moveTo(xmin, xmax);
+       ctx.lineTo(xmin,xmax + 10);
+       xmin = xmin + 63.33;
+     }
+     ctx.stroke();
 
-   // months labels
-   let xmonth = 40;
-   let months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-   for (let month = 0; month < 12; month++){
-     ctx.fillText(months[month], xmonth, 475.2);
-     xmonth = xmonth + 63.33;
-   }
+     // months labels
+     let xmonth = 40;
+     let months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+     for (let month = 0; month < 12; month++){
+       ctx.fillText(months[month], xmonth, 475.2);
+       xmonth = xmonth + 63.33;
+     }
 
-   function createTransform(domain, range){
-   // domain is a two-element array of the data bounds [domain_min, domain_max]
-   // range is a two-element array of the screen bounds [range_min, range_max]
-   // this gives you two equations to solve:
-   // range_min = alpha * domain_min + beta
-   // range_max = alpha * domain_max + beta
+     function createTransform(domain, range){
+     // domain is a two-element array of the data bounds [domain_min, domain_max]
+     // range is a two-element array of the screen bounds [range_min, range_max]
+     // this gives you two equations to solve:
+     // range_min = alpha * domain_min + beta
+     // range_max = alpha * domain_max + beta
 
-   var domain_min = domain[0];
-   var domain_max = domain[1];
-   var range_min = range[0];
-   var range_max = range[1];
+     var domain_min = domain[0];
+     var domain_max = domain[1];
+     var range_min = range[0];
+     var range_max = range[1];
 
-   // formulas to calculate the alpha and the beta
-   var alpha = (range_max - range_min) / (domain_max - domain_min);
-   var beta = range_max - alpha * domain_max;
+     // formulas to calculate the alpha and the beta
+     var alpha = (range_max - range_min) / (domain_max - domain_min);
+     var beta = range_max - alpha * domain_max;
 
-   // returns the function for the linear transformation (y= a * x + b)
-   return function(x){
-     return alpha * x + beta;
+     // returns the function for the linear transformation (y= a * x + b)
+     return function(x){
+       return alpha * x + beta;
    }
   }
 }
