@@ -5,11 +5,35 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <script type="text/javascript" src="https://d3js.org/d3.v5.min.js"></script>
-      <title>UFO</title>
+    <script type="text/javascript" src="https://d3js.org/d3.v3.min.js"></script>
+    <style>
+
+    .axis path,
+    .axis line {
+        fill: none;
+        stroke: black;
+        shape-rendering: crispEdges;
+    }
+
+    .axis text {
+        font-family: sans-serif;
+        font-size: 11px;
+    }
+
+    .bar {
+      fill: green;
+    }
+
+    .bar:hover {
+      fill: lawngreen;
+    }
+
+    </style>
+
   </head>
   <body>
     <script type="text/javascript">
+      d3.select("head").append("title").text("UFO");
       d3.select("body").append("p").text("Dewi Mooij");
       d3.select("body").append("p").text("10752978");
       d3.select("body").append("h1").text("Shapes of unidentified flying objects sighted in Great Britain in 2012");
@@ -17,7 +41,127 @@
       d3.select("body").append("p").text("Please note that some records are sightings of the same UFO but the shape might be interpreted differently by different UFO spotters.");
       d3.select("body").append("p").text("The data has been filtered from https://www.kaggle.com/NUFORC/ufo-sightings/data")
 
-    <!-- This is where your bar chart will go -->
+      d3.json("ufogb.json", function(data) {
+
+      var shapes = ["changing", "chevron", "cigar", "circle", "cone", "disk",
+      "egg", "fireball", "flash", "formation", "light", "other", "oval",
+      "rectangle", "sphere", "teardrop", "triangle", "unknown"];
+
+      var sightings_shape = [];
+
+      for (var shape = 0; shape < shapes.length; shape++){
+
+        var counter = 0
+
+          for (var sight = 0; sight < data.length; sight++)
+          {
+            if (data[sight].shape == shapes[shape]){
+                  counter += 1
+            }
+          }
+        sightings_shape.push(counter);
+      }
+
+      // set padding between bars, width and height
+      var barPadding = 1;
+      var margin = {top: 10, right: 20, bottom: 50, left: 50},
+          width = 500 - margin.left - margin.right,
+          height = 300 - margin.top - margin.bottom;
+
+      // Create SVG element
+      var svg = d3.select("body")
+        .append("svg")
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.top + margin.bottom)
+        .append("g")
+        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+      // create bar graph
+      svg.selectAll("rect")
+        .data(sightings_shape)
+        .enter()
+        .append("rect")
+        .attr("class", "bar")
+        .attr("x", function (d, i){
+          return (i * width / sightings_shape.length);
+           // + margin.left;
+        })
+        .attr("y", function (d){
+          return (height - (d * 10));
+        })
+        .attr("width", (width / sightings_shape.length - barPadding))
+        .attr("height", function (d) {
+          return (d * 10);
+        })
+
+      // add text to bar chart
+      // svg.selectAll("text")
+      //   .data(sightings_shape)
+      //   .enter()
+      //   .append("text")
+      //   .text(function(d) {
+      //        return d;
+      //   })
+      //   .attr("x", function (d, i){
+      //     return i * (width / sightings_shape.length) + 5;
+      //   })
+      //   .attr("y", function (d){
+      //     return height - (d * 10);
+      //   });
+
+    // var xscale = d3.scale.ordinal()
+    //   .domain([0, sightings_shape])
+    //   .rangeRoundBands([margin.left, width + margin.left]);
+      // .domain([0, sightings_shape.length])
+      // .range([margin.left, width + margin.left])
+
+
+
+
+    var yscale = d3.scale.linear()
+      .domain([0, 16])
+      .range([height - margin.bottom, margin.left]);
+
+      // create axes
+      // var xaxis = d3.svg.axis()
+      //                   .scale(xscale)
+      //                   .orient("bottom")
+
+      var yaxis = d3.svg.axis()
+                        .scale(yscale)
+                        .orient("left")
+                        .ticks(8);
+
+      // svg.append("g")
+      //      .attr("class", "axis")
+      //      .attr("transform", "translate(0," + height + ")")
+      //      .call(xaxis);
+
+     svg.append("g")
+          .attr("class", "axis")
+          .attr("transform", "translate(0, 0)")
+          .call(yaxis);
+
+         // .append("text")
+         //  .data(sightings_shape)
+         //  .attr("transform", "rotate(-90)")
+         //  .style("text-anchor", "end")
+         //  .text("Shape")
+         //
+         // .selectAll("text")
+         //   .data(sightings_shape)
+         //   .attr("transform", "rotate(-90)")
+         //   .style("text-anchor", "end");
+
+      // svg.append("g")
+      //      .attr("class", "axis")
+      //      .call(yaxis)
+      //     .append("text")
+      //       .attr("transform", "rotate(-90)")
+      //       .style("text-anchor", "end")
+      //       .text("Sightings");
+
+    });
 
     </script>
   </body>

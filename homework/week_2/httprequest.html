@@ -34,7 +34,6 @@
 
      rawdata = data.split("\n");
 
-     console.log(rawdata);
      // create lists to store date and temperature
      let datelist = [];
      let templist = [];
@@ -46,10 +45,6 @@
        // store values separately
        let datum = comma[0].trim();
        let temp = parseInt(comma[1]);
-
-       // if (isNaN(comma[2])){
-       //   continue;
-       // }
 
        // convert date strings to javascript dates
        let year = datum.slice(0, 4);
