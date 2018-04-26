@@ -70,7 +70,7 @@
       var width = fullwidth - margin.left - margin.right;
       var height = fullheight - margin.top - margin.bottom;
 
-      // Create SVG element
+        // Create SVG element
       var svg = d3.select("body")
         .append("svg")
          .attr("width", fullwidth)
@@ -78,17 +78,13 @@
         .append("g")
          .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-     // var xscale = d3.scale.ordinal()
-     //   .domain(sightings_shape)
-     //   .rangeRoundBands([margin.left, width]);
+      var xscale = d3.scale.ordinal()
+         .domain(shapes)
+         .rangeRoundBands([0, width]);
 
-    var xscale = d3.scale.linear()
-      .domain(sightings_shape)
-      .range([width, 0]);
-
-     var yscale = d3.scale.linear()
-       .domain([0, 16])
-       .range([height, margin.top]);
+      var yscale = d3.scale.linear()
+         .domain([0, 16])
+         .range([height, margin.top]);
 
       // create bars
       svg.selectAll("rect")
@@ -102,12 +98,10 @@
         .attr("y", function (d){
           return yscale(d);
         })
-        .attr("width", width / sightings_shape.length - barPadding)
+        .attr("width", (width / sightings_shape.length - barPadding))
         .attr("height", function (d){
           return height - yscale(d);
         })
-
-
 
       // add text to bar chart
       // svg.selectAll("text")
@@ -124,12 +118,6 @@
       //     return height - (d * 10);
       //   });
 
-    // var xscale = d3.scale.ordinal()
-    //   .domain([0, sightings_shape])
-    //   .rangeRoundBands([margin.left, width + margin.left]);
-      // .domain([0, sightings_shape.length])
-      // .range([margin.left, width + margin.left])
-
       // create axes
       var xaxis = d3.svg.axis()
           .scale(xscale)
@@ -142,33 +130,17 @@
 
       svg.append("g")
            .attr("class", "axis")
-           .call(xaxis);
+           .call(xaxis)
 
-     svg.append("g")
+      svg.append("g")
           .attr("class", "axis")
           .call(yaxis)
         .append("text")
           .text("Sightings")
-          .style("text-anchor", "end");
-
-         // .append("text")
-         //  .data(sightings_shape)
-         //
-         //
-         //  .text("Shape")
-         //
-         // .selectAll("text")
-         //   .data(sightings_shape)
-         //   .attr("transform", "rotate(-90)")
-         //   .style("text-anchor", "end");
-
-      // svg.append("g")
-      //      .attr("class", "axis")
-      //      .call(yaxis)
-      //     .append("text")
-      //       .attr("transform", "rotate(-90)")
-      //       .style("text-anchor", "end")
-      //       .text("Sightings");
+          .style("text-anchor", "end")
+          .attr("y", 5)
+          .attr("dy", ".71em")
+          .attr("transform", "rotate(-90)");
 
     });
 
