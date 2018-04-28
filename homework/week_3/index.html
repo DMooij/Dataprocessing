@@ -1,11 +1,14 @@
 <!-- Dewi Mooij  -->
 <!-- 10752978 -->
+<!-- information on how to use d3 was obtained from http://alignedleft.com/tutorials/d3/ -->
+<!-- information on how to make a tooltip was obtained from https://jrue.github.io/coding/2014/lesson14/  -->
 
 <!DOCTYPE html>
 <html>
   <head>
     <meta charset="utf-8">
     <script type="text/javascript" src="https://d3js.org/d3.v3.min.js"></script>
+    <script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
     <style>
 
     .axis path,
@@ -28,6 +31,14 @@
       fill: lawngreen;
     }
 
+    .d3-tip {
+      line-height: 1;
+      font-weight: bold;
+      padding: 12px;
+      background: rgba(0, 0, 0, 0.8);
+      color: #fff;
+      border-radius: 2px;
+    }
     </style>
 
   </head>
@@ -41,8 +52,10 @@
       d3.select("body").append("p").text("Please note that some records are sightings of the same UFO but the shape might be interpreted differently by different UFO spotters.");
       d3.select("body").append("p").text("The data has been filtered from https://www.kaggle.com/NUFORC/ufo-sightings/data")
 
+      // import data from json
       d3.json("ufogb.json", function(data) {
 
+      // select data required for making the bar chart
       var shapes = ["changing", "chevron", "cigar", "circle", "cone", "disk",
       "egg", "fireball", "flash", "formation", "light", "other", "oval",
       "rectangle", "sphere", "teardrop", "triangle", "unknown"];
@@ -62,15 +75,14 @@
         sightings_shape.push(counter);
       }
 
-      // set padding between bars, width and height
-      var barPadding = 1;
-      var margin = {top: 10, right: 20, bottom: 50, left: 50};
+      // set width and height of svg and bar chart area
+      var margin = {top: 10, right: 20, bottom: 70, left: 50};
       var fullwidth = 500;
       var fullheight = 300;
       var width = fullwidth - margin.left - margin.right;
       var height = fullheight - margin.top - margin.bottom;
 
-        // Create SVG element
+      // Create SVG element
       var svg = d3.select("body")
         .append("svg")
          .attr("width", fullwidth)
@@ -78,60 +90,69 @@
         .append("g")
          .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
+      // set x scale
       var xscale = d3.scale.ordinal()
-         .domain(shapes)
-         .rangeRoundBands([0, width]);
+         .domain(d3.range(sightings_shape.length))
+         .rangeRoundBands([0, width], .05);
 
+      // set y scale
       var yscale = d3.scale.linear()
          .domain([0, 16])
          .range([height, margin.top]);
 
-      // create bars
+      // create the tooltip
+      var tooltip = d3.tip()
+        .attr("class", "d3-tip")
+        .offset([-10, 0])
+        .html(function(d){
+           return "<strong>Sightings:</strong> <span style='color:green'>" + d + "</span>"
+        });
+
+      svg.call(tooltip);
+
+      // create bar chart and make tooltip pop up
       svg.selectAll("rect")
         .data(sightings_shape)
         .enter()
         .append("rect")
         .attr("class", "bar")
         .attr("x", function (d, i){
-          return (i * width / sightings_shape.length);
+          return xscale(i);
         })
         .attr("y", function (d){
           return yscale(d);
         })
-        .attr("width", (width / sightings_shape.length - barPadding))
+        .attr("width", xscale.rangeBand())
         .attr("height", function (d){
           return height - yscale(d);
         })
-
-      // add text to bar chart
-      // svg.selectAll("text")
-      //   .data(sightings_shape)
-      //   .enter()
-      //   .append("text")
-      //   .text(function(d) {
-      //        return d;
-      //   })
-      //   .attr("x", function (d, i){
-      //     return i * (width / sightings_shape.length) + 5;
-      //   })
-      //   .attr("y", function (d){
-      //     return height - (d * 10);
-      //   });
+        .on("mouseover", tooltip.show)
+        .on("mouseout", tooltip.hide)
 
       // create axes
       var xaxis = d3.svg.axis()
           .scale(xscale)
           .orient("bottom")
+          .tickFormat(function(d) { return shapes[d]; })
 
       var yaxis = d3.svg.axis()
                         .scale(yscale)
                         .orient("left")
                         .ticks(8);
 
+      // x axis
       svg.append("g")
            .attr("class", "axis")
+           .attr("transform", "translate(0," + height + ")")
            .call(xaxis)
+          .selectAll("text")
+           .attr("y", 0)
+           .attr("x", 9)
+           .attr("dy", ".35em")
+           .attr("transform", "rotate(60)")
+           .style("text-anchor", "start");
 
+      // y axis
       svg.append("g")
           .attr("class", "axis")
           .call(yaxis)
