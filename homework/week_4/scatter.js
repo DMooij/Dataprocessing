@@ -82,7 +82,11 @@ function loadData(error, response) {
 
       console.log(data);
 
+      MakeChart();
+
       // set width and height of svg and scatterplot area
+      function MakeChart () {
+
       var margin = {top: 10, right: 200, bottom: 70, left: 60};
       var fullwidth = 1000;
       var fullheight = 500;
@@ -121,7 +125,7 @@ function loadData(error, response) {
         .attr("cy", function(d) {
              return yscale(d[1]);
         })
-        .attr("r", 5)
+        .attr("r", 8)
         .style('fill', function(d){
             return color(d); });
 
@@ -173,9 +177,9 @@ function loadData(error, response) {
           .style('text-anchor', 'start')
           .data(places)
           .text(function(d){
-              return (d); });;
+              return (d); });
 
-
+        }
           // jaar 2015
           console.log(data[14])
 
