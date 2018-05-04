@@ -1,11 +1,14 @@
 // Dewi Mooij
 // 10752978
-// information on how to use d3 was obtained from http://alignedleft.com/tutorials/d3/
+// D3 scatterplot
+// information on how to use d3 was obtained from https://alignedleft.com/tutorials/d3/
+// information on how to update a d3 chart was obtained from https://bl.ocks.org/anupsavvy/9513382
 
 window.onload = function() {
   console.log("Yes, you can!")
 };
 
+//  get data APIs
 var pop_met_area_data = "https://stats.oecd.org/SDMX-JSON/data/CITIES/AUT+BEL+CZE+DEU+DNK+EST+ESP+FIN+FRA+GRC+HUN+IRL+ITA+NLD+NOR+POL+PRT+SWE+SVN+GBR.POP/all?startTime=2000&endTime=2014&dimensionAtObservation=allDimensions"
 
 var pop_density_data = "https://stats.oecd.org/SDMX-JSON/data/CITIES/AUT+BEL+CZE+DEU+DNK+EST+ESP+FIN+FRA+GRC+HUN+IRL+ITA+NLD+NOR+POL+PRT+SWE+SVN+GBR.POP_DENS/all?startTime=2000&endTime=2014&dimensionAtObservation=allDimensions"
@@ -15,6 +18,7 @@ d3.queue()
   .defer(d3.request, pop_density_data)
 .awaitAll(loadData);
 
+// Load data to plot scatterplot
 function loadData(error, response) {
   if (error) throw error;
 
@@ -22,7 +26,7 @@ function loadData(error, response) {
       var jsonpopmet = JSON.parse(response[0].responseText);
       var jsonpopdens = JSON.parse(response[1].responseText);
 
-      // store metropolitan areas
+      // store countries
       var places = []
 
       for (place = 0; place < 20; place++)
@@ -30,8 +34,6 @@ function loadData(error, response) {
           place_met = jsonpopmet["structure"]["dimensions"]["observation"]["0"]["values"][place]["name"]
           places.push(place_met)
       }
-
-      console.log(places)
 
       // store all metropolitan areas, new array for every year
       var pop_met_area = [];
@@ -47,7 +49,6 @@ function loadData(error, response) {
         }
           pop_met_area.push(met_area)
       }
-      console.log(pop_met_area)
 
       // store population density of each area, new array for every year
       var pop_density = [];
@@ -63,7 +64,6 @@ function loadData(error, response) {
         }
           pop_density.push(dens_area)
       }
-      console.log(pop_density)
 
       // store population density and population metropolitan area as x and y in data
       var data = [];
@@ -80,13 +80,7 @@ function loadData(error, response) {
         data.push(datap);
       }
 
-      console.log(data);
-
-      MakeChart();
-
       // set width and height of svg and scatterplot area
-      function MakeChart () {
-
       var margin = {top: 10, right: 200, bottom: 70, left: 60};
       var fullwidth = 1000;
       var fullheight = 500;
@@ -114,7 +108,7 @@ function loadData(error, response) {
       // colorbrewer category20 colors
       var color = d3.scaleOrdinal(d3.schemeCategory20);
 
-      // create circles
+      // create circles for scatterplot, initialize with data from the year 2000
       svg.selectAll("circle")
         .data(data[0])
         .enter()
@@ -179,77 +173,95 @@ function loadData(error, response) {
           .text(function(d){
               return (d); });
 
-        }
-          // jaar 2015
-          console.log(data[14])
+        // update chart to other years in the period 2000-2014
+        d3.selectAll(".year")
+          .on("click", function(){
 
-          function updateChart (data)
-          {
-            // update charst
+              // get data for selected year
+              var value = this.getAttribute("value");
+              var yeardata;
 
-            // functie data[year] en die dan updaten
-            // jaren 2000 en 2016
+              if (value == "2000"){
+                yeardata = data[0]
+              };
+              if (value == "2001"){
+                yeardata = data[1]
+              };
+              if (value == "2002"){
+                yeardata = data[2]
+              };
+              if (value == "2003"){
+                yeardata = data[3]
+              };
+              if (value == "2004"){
+                yeardata = data[4]
+              };
+              if (value == "2005"){
+                yeardata = data[5]
+              };
+              if (value == "2006"){
+                yeardata = data[6]
+              };
+              if (value == "2007"){
+                yeardata = data[7]
+              };
+              if (value == "2008"){
+                yeardata = data[8]
+              };
+              if (value == "2009"){
+                yeardata = data[9]
+              };
+              if (value == "2010"){
+                yeardata = data[10]
+              };
+              if (value == "2011"){
+                yeardata = data[11]
+              };
+              if (value == "2012"){
+                yeardata = data[12]
+              };
+              if (value == "2013"){
+                yeardata = data[13]
+              };
+              if (value == "2014"){
+                yeardata = data[14]
+              };
 
+                // rescale x scale
+                var xscale = d3.scaleLinear()
+                   .domain([0, d3.max(yeardata, function(d) { return d[0];})])
+                   .range([0, width])
 
+                // rescale y scale
+                var yscale = d3.scaleLinear()
+                   .domain([0, d3.max(yeardata, function(d) { return d[1];})])
+                   .range([height, margin.top]);
 
-                        d3.select("dropdown")
-                            .on("click", function() {
-                                // var numValues = dataset.length;  // Get original dataset's length
-                                // var maxRange = Math.random() * 1000;  // Get max range of new values
-                                // dataset = [];  // Initialize empty array
-                                // for(var i=0; i<numValues; i++) {
-                                //     var newNumber1 = Math.floor(Math.random() * maxRange);  // Random int for x
-                                //     var newNumber2 = Math.floor(Math.random() * maxRange);  // Random int for y
-                                //     dataset.push([newNumber1, newNumber2]);  // Add new numbers to array
+                // update scatterplot
+                svg.selectAll("circle")
+                  .data(yeardata)
+                  .transition()
+                  .duration(1000)
+                  .attr("cx", function(d) {
+                       return xscale(d[0]);
+                  })
+                  .attr("cy", function(d) {
+                       return yscale(d[1]);
+                  })
+                  .attr("r", 8)
+                  .style('fill', function(d){
+                      return color(d); });
 
-                                // Update scale domains
-                                xscale.domain([0, d3.max(data, function(d) {
-                                    return d[0]; })]);
-                                yscale.domain([0, d3.max(data, function(d) {
-                                    return d[1]; })]);
+                  // update x axis
+                  svg.select("axis")
+                      .transition()
+                      .duration(1000)
+                      .call(d3.axisBottom(xscale))
 
-                                // Update circles
-                                svg.selectAll("circle")
-                                    .data(data)  // Update with new data
-                                    .transition()  // Transition from old to new
-                                    .duration(1000)  // Length of animation
-                                    // .each("start", function() {  // Start animation
-                                    //     d3.select(this)  // 'this' means the current element
-                                    //         .attr("fill", "red")  // Change color
-                                    //         .attr("r", 5);  // Change size
-                                    // })
-                                    // .delay(function(d, i) {
-                                    //     return i / dataset.length * 500;  // Dynamic delay (i.e. each item delays a little longer)
-                                    // })
-                                    //.ease("linear")  // Transition easing - default 'variable' (i.e. has acceleration), also: 'circle', 'elastic', 'bounce', 'linear'
-                                    .attr("cx", function(d) {
-                                        return xscale(d[0]);  // Circle's X
-                                    })
-                                    .attr("cy", function(d) {
-                                        return yscale(d[1]);  // Circle's Y
-                                    })
-                                    // .each("end", function() {  // End animation
-                                    //     d3.select(this)  // 'this' means the current element
-                                    //         .transition()
-                                    //         .duration(500)
-                                    //         .attr("fill", "black")  // Change color
-                                    //         .attr("r", 2);  // Change radius
-                                    // });
-
-                                    // Update X Axis
-                                    svg.select(".x.axis")
-                                        .transition()
-                                        .duration(1000)
-                                        .call(d3.axisBottom(xscale));
-
-                                    // Update Y Axis
-                                    svg.select(".y.axis")
-                                        .transition()
-                                        .duration(100)
-                                        .call(d3.axisLeft(yscale));
+                  // update y axis
+                  svg.select("axis")
+                      .transition()
+                      .duration(100)
+                      .call(d3.axisLeft(yscale))
           });
-
-        };
-
-
 };

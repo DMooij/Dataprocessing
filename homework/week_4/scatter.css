@@ -1,6 +1,55 @@
 /* Dewi Mooij
-10752978  */
+10752978
+D3 scatterplot */
+/* information on how to make and style a dropdown menu was obtained from https://www.w3schools.com/css/css_dropdowns.asp */
 
+/* font of all text */
 body{
-  font: 11px Verdana
+  font: 14px Verdana
+}
+
+/* dropdown button */
+.dropbtn {
+    background-color: #cc3399;
+    color: white;
+    padding: 16px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+/* dropdown menu content */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+/* options in dropdown menu */
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+/* Change color when hovering over the dropdown menu */
+.dropdown-content a:hover {background-color: #f1f1f1}
+
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+/* Change the background color of the dropdown button when the dropdown content is shown */
+.dropdown:hover .dropbtn {
+    background-color: #cc6699;
 }
