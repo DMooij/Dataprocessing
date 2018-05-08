@@ -1,0 +1,145 @@
+AUS,Australia,LEI,Leisure,28.119.528
+AUS,Australia,OTH,Other,20.013.899
+AUS,Australia,PAW,Paid work or study,23.816.539
+AUS,Australia,PCA,Personal care,65.745.654
+AUS,Australia,UPW,Unpaid work,24.316.887
+AUT,Austria,LEI,Leisure,29.120.932
+AUT,Austria,OTH,Other,84.071.388
+AUT,Austria,PAW,Paid work or study,30.643.021
+AUT,Austria,PCA,Personal care,632
+AUT,Austria,UPW,Unpaid work,202
+BEL,Belgium,LEI,Leisure,36.874.393
+BEL,Belgium,OTH,Other,49.965.301
+BEL,Belgium,PAW,Paid work or study,19.086.745
+BEL,Belgium,PCA,Personal care,66.453.851
+BEL,Belgium,UPW,Unpaid work,21.085.358
+CAN,Canada,LEI,Leisure,27.893.344
+CAN,Canada,OTH,Other,3.391.396
+CAN,Canada,PAW,Paid work or study,30.464.124
+CAN,Canada,PCA,Personal care,63.657.739
+CAN,Canada,UPW,Unpaid work,186
+DEU,Germany,LEI,Leisure,33.115.182
+DEU,Germany,OTH,Other,17.013.493
+DEU,Germany,PAW,Paid work or study,24.788.115
+DEU,Germany,PCA,Personal care,64.802.252
+DEU,Germany,UPW,Unpaid work,19.593.103
+DNK,Denmark,LEI,Leisure,32.884.482
+DNK,Denmark,OTH,Other,10.351.957
+DNK,Denmark,PAW,Paid work or study,22.481.659
+DNK,Denmark,PCA,Personal care,65.935.931
+DNK,Denmark,UPW,Unpaid work,21.662.733
+ESP,Spain,LEI,Leisure,31.604.926
+ESP,Spain,OTH,Other,13.424.608
+ESP,Spain,PAW,Paid work or study,20.200.473
+ESP,Spain,PCA,Personal care,69.179.242
+ESP,Spain,UPW,Unpaid work,21.672.911
+EST,Estonia,LEI,Leisure,30.940.707
+EST,Estonia,OTH,Other,5
+EST,Estonia,PAW,Paid work or study,25.557.736
+EST,Estonia,PCA,Personal care,66.267.316
+EST,Estonia,UPW,Unpaid work,20.768.231
+FIN,Finland,LEI,Leisure,33.098.871
+FIN,Finland,OTH,Other,42.547.142
+FIN,Finland,PAW,Paid work or study,229.097
+FIN,Finland,PCA,Personal care,64.048.987
+FIN,Finland,UPW,Unpaid work,19.687.715
+FRA,France,LEI,Leisure,29.354.263
+FRA,France,OTH,Other,89.471.149
+FRA,France,PAW,Paid work or study,20.416.515
+FRA,France,PCA,Personal care,75.224.652
+FRA,France,UPW,Unpaid work,18.109.856
+GBR,United Kingdom,LEI,Leisure,30.553.094
+GBR,United Kingdom,OTH,Other,32.471.893
+GBR,United Kingdom,PAW,Paid work or study,26.226.492
+GBR,United Kingdom,PCA,Personal care,64.520.435
+GBR,United Kingdom,UPW,Unpaid work,19.452.788
+GRC,Greece,LEI,Leisure,35.275.504
+GRC,Greece,OTH,Other,7
+GRC,Greece,PAW,Paid work or study,1.818.737
+GRC,Greece,PCA,Personal care,70.551.007
+GRC,Greece,UPW,Unpaid work,193
+HUN,Hungary,LEI,Leisure,27.819.318
+HUN,Hungary,OTH,Other,20.013.897
+HUN,Hungary,PAW,Paid work or study,2.771.925
+HUN,Hungary,PCA,Personal care,68.247.394
+HUN,Hungary,UPW,Unpaid work,20.013.899
+IRL,Ireland,LEI,Leisure,31.541.565
+IRL,Ireland,OTH,Other,25.717.863
+IRL,Ireland,PAW,Paid work or study,27.060.184
+IRL,Ireland,PCA,Personal care,61.570.709
+IRL,Ireland,UPW,Unpaid work,21.255.751
+ITA,Italy,LEI,Leisure,32.325.861
+ITA,Italy,OTH,Other,13.185.362
+ITA,Italy,PAW,Paid work or study,17.670.906
+ITA,Italy,PCA,Personal care,70.780.823
+ITA,Italy,UPW,Unpaid work,21.903.874
+JPN,Japan,LEI,Leisure,27.831.256
+JPN,Japan,OTH,Other,47.087.002
+JPN,Japan,PAW,Paid work or study,3.626.546
+JPN,Japan,PCA,Personal care,62.003.809
+JPN,Japan,UPW,Unpaid work,13.201.698
+KOR,Korea,LEI,Leisure,29.140.714
+KOR,Korea,OTH,Other,12.808.626
+KOR,Korea,PAW,Paid work or study,34.823.419
+KOR,Korea,PCA,Personal care,65.174.463
+KOR,Korea,UPW,Unpaid work,13.580.542
+LVA,Latvia,LEI,Leisure,26.884.131
+LVA,Latvia,OTH,Other,38.495.073
+LVA,Latvia,PAW,Paid work or study,32.993.842
+LVA,Latvia,PCA,Personal care,6.412.962
+LVA,Latvia,UPW,Unpaid work,19.607.454
+MEX,Mexico,LEI,Leisure,17.771.179
+MEX,Mexico,OTH,Other,21.434.044
+MEX,Mexico,PAW,Paid work or study,358.63
+MEX,Mexico,PCA,Personal care,61.240.674
+MEX,Mexico,UPW,Unpaid work,26.981.741
+NLD,Netherlands,LEI,Leisure,29.556.506
+NLD,Netherlands,OTH,Other,33.391.407
+NLD,Netherlands,PAW,Paid work or study,28.069.476
+NLD,Netherlands,PCA,Personal care,63.759.039
+NLD,Netherlands,UPW,Unpaid work,19.275.839
+NOR,Norway,LEI,Leisure,36.824.329
+NOR,Norway,OTH,Other,72.344.952
+NOR,Norway,PAW,Paid work or study,24.126.506
+NOR,Norway,PCA,Personal care,62.727.295
+NOR,Norway,UPW,Unpaid work,19.598.425
+NZL,New Zealand,LEI,Leisure,301
+NZL,New Zealand,OTH,Other,17
+NZL,New Zealand,PAW,Paid work or study,270
+NZL,New Zealand,PCA,Personal care,648
+NZL,New Zealand,UPW,Unpaid work,204
+POL,Poland,LEI,Leisure,27.784.232
+POL,Poland,OTH,Other,50.788.383
+POL,Poland,PAW,Paid work or study,21.809.129
+POL,Poland,PCA,Personal care,66.721.991
+POL,Poland,UPW,Unpaid work,22.605.809
+PRT,Portugal,LEI,Leisure,24.067.133
+PRT,Portugal,OTH,Other,60.419.579
+PRT,Portugal,PAW,Paid work or study,29.504.895
+PRT,Portugal,PCA,Personal care,67.569.232
+PRT,Portugal,UPW,Unpaid work,22.254.546
+SVN,Slovenia,LEI,Leisure,31.056.866
+SVN,Slovenia,OTH,Other,59.916.782
+SVN,Slovenia,PAW,Paid work or study,26.463.245
+SVN,Slovenia,PCA,Personal care,62.812.762
+SVN,Slovenia,UPW,Unpaid work,23.067.961
+SWE,Sweden,LEI,Leisure,30.696.823
+SWE,Sweden,OTH,Other,51.815.403
+SWE,Sweden,PAW,Paid work or study,27.421.985
+SWE,Sweden,PCA,Personal care,61.064.978
+SWE,Sweden,UPW,Unpaid work,19.634.673
+TUR,Turkey,LEI,Leisure,28.298.257
+TUR,Turkey,OTH,Other,63.219.513
+TUR,Turkey,PAW,Paid work or study,19.969.337
+TUR,Turkey,PCA,Personal care,69.541.461
+TUR,Turkey,UPW,Unpaid work,1.986.899
+USA,United States,LEI,Leisure,28.329.303
+USA,United States,OTH,Other,23.440.849
+USA,United States,PAW,Paid work or study,28.950.821
+USA,United States,PCA,Personal care,64.631.824
+USA,United States,UPW,Unpaid work,19.743.968
+ZAF,South Africa,LEI,Leisure,30.589.819
+ZAF,South Africa,OTH,Other,1.616.213
+ZAF,South Africa,PAW,Paid work or study,24.057.607
+ZAF,South Africa,PCA,Personal care,69.507.886
+ZAF,South Africa,UPW,Unpaid work,18.228.479
