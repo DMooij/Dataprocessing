@@ -50,7 +50,6 @@ function LoadData(error, response){
 		 done: function(datamap){
 			 datamap.svg.selectAll(".datamaps-subunit").on("click", function(geography){
 				 var location = geography.id;
-				 console.log(location);
 				 makeBarchart(location, time_per_country);
 			 })
 		 },
@@ -70,8 +69,8 @@ function LoadData(error, response){
 		 }
  		});
 
-    // below map make barchart that shows the time use in the country when clicked
 		function makeBarchart(location, time_per_country){
+
     // set width and height of svg and bar chart area
     var margin = {top: 25, right: 20, bottom: 50, left: 50};
     var fullwidth = 500;
@@ -87,18 +86,15 @@ function LoadData(error, response){
       .append("g")
        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-		// for (var j = 0; j < time_per_country["LOCATION"].length; j++){
-		//
-		// 	if (time_per_country["LOCATION"][j] == location){
-		// 		var time_data = time_per_country[j]
-		// 	}
-		// }
+		// select data for the country clicked
+		for (var j = 0; j < time_per_country.length; j++){
+			if (time_per_country[j][0]["LOCATION"] == location){
+				var time_data = time_per_country[j]
+			}
+		}
 
-		var time_data = time_per_country[location]
-		console.log(time_data)
-
+		// set x scale
 		var xscale = d3.scale.ordinal()
-		   // .domain([0, time_per_country[0].map(function(d) { return d.Description;})])
 			 .domain(d3.range(time_data.length))
 		   .rangeRoundBands([0, width], .05);
 
@@ -107,6 +103,7 @@ function LoadData(error, response){
 		   .domain([0, d3.max(time_data, function(d) { return d.Value;})])
 		   .range([height, margin.top]);
 
+		// tick labels for x axis
 	 	var use = ["Leisure", "Other", "Paid work or study", "Personal care", "Unpaid work"]
 
 		// create axes
@@ -155,6 +152,7 @@ function LoadData(error, response){
 		  });
 		svg.call(tooltip);
 
+		// create bars
 		svg.selectAll("rect")
 		  .data(time_data)
 		  .enter()
@@ -179,7 +177,7 @@ function LoadData(error, response){
 	    .attr("y", 0 - (margin.top/2))
 	    .attr("text-anchor", "middle")
 	    .style("font-size", "14px")
-	    .text("Time use in "+ time_per_country[country].Country)
+	    .text("Time use in "+ location)
 
 	};
 };
