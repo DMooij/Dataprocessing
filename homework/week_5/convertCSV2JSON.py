@@ -7,11 +7,11 @@ import csv
 import json
 
 # open csv file and json file
-csvfile = open('Time_use.csv', 'r')
-jsonfile = open('time.json', 'w')
+csvfile = open('life_men.csv', 'r')
+jsonfile = open('life_men.json', 'w')
 
 # assign fieldnames
-fieldnames = ("LOCATION", "Country", "DESC", "Description", "Value")
+fieldnames = ("LOCATION", "Country", "Value")
 
 # read csvfile
 reader = csv.DictReader(csvfile, fieldnames)

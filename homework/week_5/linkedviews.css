@@ -3,8 +3,16 @@
 
 /* font of all text */
 body{
-  font: 14px Verdana
+  font: 14px Verdana;
 }
+
+button{
+  margin-bottom: 1em;
+}
+
+/* .svg{
+  float: left;
+} */
 
 .axis path,
 .axis line {

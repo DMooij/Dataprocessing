@@ -2,32 +2,64 @@
 <!-- 10752978 -->
 <!-- D3 Linked views -->
 
-<!-- HTML CODE VALIDEREN! -->
+<!doctype html>
 
 <html>
+
   <head>
     <title>Linked views</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="linkedviews.css">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
     <script src="https://d3js.org/d3.v3.min.js"></script>
     <script src="https://d3js.org/queue.v1.min.js"></script>
     <script src="https://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/1.6.9/topojson.min.js"></script>
     <script src="datamaps.world.min.js"></script>
     <script src="linkedviews.js"></script>
-
   </head>
 
   <body>
-    <p>Dewi Mooij - 10752978 - D3 linked views</p>
-    <h1>Life satisfaction and time use</h1>
-    <p>This datamap shows the life satisfaction on a scale form 0 to 10 in certain countries, when a country is clicked the bar graph that appears shows how time is used in the country.</p>
-    <p><a href="https://stats.oecd.org/Index.aspx?DataSetCode=BLI">Life satisfaction 2017 data</a></p>
-    <p><a href="https://stats.oecd.org/Index.aspx?DataSetCode=BLI">Time use data</a></p>
-
-    <div id="map" style="position: relative; width: 800px; height: 400px;"></div>
-
-    <div id="barchart"></div>
-
-
+    <div class="container-fluid">
+      <p>Dewi Mooij - 10752978 - D3 linked views<p>
+      <div class="alert alert-danger">
+        <h3>Life satisfaction and time use</h1></br>
+        <strong><p>HOW IT WORKS</p></strong>
+        <p>The datamap shows the life satisfaction on a scale form 0 to 10 in certain countries, when a country is clicked the bar graph that appears shows how time is used in the country.</p>
+        <button class="btn btn-danger" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+            Time use categories
+        </button>
+        <div class="collapse" id="collapseExample">
+            <div class="card card-body">
+                <p><strong>Leisure:</strong> spiritual and religious activities and in civic obligations, or unspecified activities.</p>
+                <p><strong>Other:</strong> socialising, attending cultural, entertainment and sports events, hobbies, games and other pastime activities, participating in sports and outdoor activities, using mass media, performing other leisure activities.</p>
+                <p><strong>Paid work or study:</strong> paid work, job search, attendance of classes at all levels, higher education, extra or make up classes), research/homework, travel to and from work/study, other paid work or study-related activities.</p>
+                <p><strong>Personal care:</strong> activities required in relation to biological needs (sleeping, eating, resting etc.), performing own personal or household health-care and maintenance or receiving this type of care, travel related to personal care activities in relation to spiritual/religious care, doing nothing, resting, relaxing, meditating, thinking, planning.</p>
+                <p><strong>Unpaid work:</strong> routine housework, shopping, care for household members, child care, adult care, care for non-household members, volunteering, travel related to household activities, other unpaid activities.</p>
+            </div>
+        </div></br>
+        <button type="button" class="btn btn-danger" value="Input Button" onclick="location.href = 'https://stats.oecd.org/Index.aspx?DataSetCode=BLI';">Life satisfaction data</button>
+        <button type="button" class="btn btn-danger" value="Input Button" onclick="location.href = 'https://stats.oecd.org/Index.aspx?DataSetCode=BLI';">Time use data</button>
+      </div>
+      <div class="row">
+          <div class="col-sm-6">
+            <h5>Life satisfaction</h5></br>
+            <div id="map" style="position: relative; width: 90%; height: 60%"></div>
+          </div>
+          <div class="col-sm-6">
+            <h5>Time use</h5>
+            <div  id="barchart"></div>
+          </div>
+      </div>
+    </div>
   </body>
+  
 </html>
+
+
+<!-- life satisfaction: The indicator considers people's evaluation of their life as a whole -->
+<!--  on how people precisely allocate their time across different day-to-day activities.  -->

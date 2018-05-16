@@ -4,9 +4,6 @@ Dewi Mooij
 D3 linkedviews
 */
 
-// CHECK CODE GUIDELINES!
-// UPDATE BARCHART
-
 window.onload = function(){
 queue()
 	.defer(d3.json, 'time.json')
@@ -14,6 +11,7 @@ queue()
 	.awaitAll(LoadData);
 };
 
+// load the data
 function LoadData(error, response){
   if (error) throw error;
 
@@ -41,24 +39,31 @@ function LoadData(error, response){
       start += 5;
     };
 
+		// initialize datamap and default bar chart of time use in the USA
 		makeMap(data_life_map, time_per_country);
+		makeBarchart(time_per_country[27][0]["LOCATION"], time_per_country);
 	};
 
-    // interactive datamap to display the life satisfaction data
+  // interactive datamap to display the life satisfaction data
 	function makeMap(data_life_map, time_per_country){
 	    var map = new Datamap({
-	      element: document.getElementById("map"),
-				fills: {
+	     element: document.getElementById("map"),
+			 fills: {
 					location: "firebrick",
 					defaultFill: "bisque"
 			 },
 			 data: data_life_map,
+			 responsive: true,
 			 done: function(datamap){
 				 datamap.svg.selectAll(".datamaps-subunit").on("click", function(geography){
 					 var location = geography.id;
-					 d3.select("#barchart").select("svg").remove()
-					 makeBarchart(location, time_per_country);
-				 })
+					 for (var loc = 0; loc < time_per_country.length; loc++){
+					 		if (location == time_per_country[loc][0]["LOCATION"]){
+								 removeBarchart();
+								 makeBarchart(location, time_per_country);
+						 	}
+					 }
+				 });
 			 },
 			 geographyConfig: {
 					 popupTemplate: function(geo, data_life_map) {
@@ -75,8 +80,20 @@ function LoadData(error, response){
 					 }
 			 }
 	 		});
+
+			// add legend to datamap
+			var leg = {
+				defaultFillName: "no data available for this country:",
+			};
+
+			map.legend(leg);
+
+			d3.select(window).on('resize', function() {
+        map.resize();
+    });
 		};
 
+		// barchart displaying how time is used in the selected country
 		function makeBarchart(location, time_per_country){
 	    var margin = {top: 25, right: 20, bottom: 50, left: 50};
 	    var fullwidth = 500;
@@ -87,16 +104,15 @@ function LoadData(error, response){
 	    // Create SVG element
 	    var svg = d3.select("#barchart")
 	      .append("svg")
-	       .attr("width", fullwidth)
-	       .attr("height", fullheight)
+				 .attr("viewBox", [0, 0, fullwidth, fullheight])
 	      .append("g")
 	       .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
 			// select data for the country clicked
 			for (var loc = 0; loc < time_per_country.length; loc++){
 				if (time_per_country[loc][0]["LOCATION"] == location){
-					var time_data = time_per_country[loc]
-				};
+					var time_data = time_per_country[loc];
+				}
 			};
 
 			// set x scale
@@ -106,23 +122,20 @@ function LoadData(error, response){
 
 			// set y scale
 			var yscale = d3.scale.linear()
-			   .domain([0, d3.max(time_data, function(d) { return d.Value;})])
+				 .domain([0, Math.max(time_data[3]["Value"])])
 			   .range([height, margin.top]);
-
-			// tick labels for x axis
-		 	var use = ["Leisure", "Other", "Paid work or study", "Personal care", "Unpaid work"]
 
 			// create axes
 			var xaxis = d3.svg.axis()
 			    .scale(xscale)
 			    .orient("bottom")
-			    .tickFormat(function(d) { return use[d]; });
+			    .tickFormat(function(d) { return time_data[d]["Description"]; });
 
 			var yaxis = d3.svg.axis()
 			                  .scale(yscale)
-			                  .orient("left");
+			                  .orient("left")
+												.ticks(6);
 
-			// x axis
 			svg.append("g")
 			     .attr("class", "axis")
 			     .attr("transform", "translate(0," + height + ")")
@@ -138,12 +151,12 @@ function LoadData(error, response){
 			 .attr("dy", ".71em")
 	     .text("Time use");
 
-			// y axis
+			// y axis label
 			svg.append("g")
 			    .attr("class", "axis")
 			    .call(yaxis)
 			  .append("text")
-			    .text("Hours")
+			    .text("Minutes per day")
 			    .style("text-anchor", "end")
 			    .attr("y", 5)
 			    .attr("dy", ".71em")
@@ -154,8 +167,8 @@ function LoadData(error, response){
 			  .attr("class", "d3-tip")
 			  .offset([-10, 0])
 			  .html(function(d){
-			     return "<strong>Hours:</strong> <span style='color:crimson'>" + d.Value + "</span>"
-			  })
+			     return "<strong>Minutes per day:</strong> <span style='color:crimson'>" + d.Value + "</span>"
+			  });
 				svg.call(tooltip);
 
 			// create bars
@@ -183,23 +196,9 @@ function LoadData(error, response){
 		    .attr("y", 0 - (margin.top/2))
 		    .attr("text-anchor", "middle")
 		    .style("font-size", "14px")
-		    .text("Time use in "+ location);
+		    .text("Time use in " + location);
 	};
 
-	// function updateBarchart(location, time_per_country){
-	//
-	// 	console.log(time_per_country)
-	// 	// select data for the country clicked
-	// 	for (var loc = 0; loc < time_per_country.length; loc++){
-	// 		if (time_per_country[loc][0]["LOCATION"] == location){
-	// 			var time_data = time_per_country[loc]
-	// 		};
-	// 	};
-	//
-	// 	var update = svg.selectAll("rect")
-	//              .data(time_data);
-	//
-	// 	update.exit().remove();
-	// 	update.enter().append("rect")
-	//
-	// };
+	function removeBarchart(){
+		d3.select("#barchart").select("svg").remove()
+	};
