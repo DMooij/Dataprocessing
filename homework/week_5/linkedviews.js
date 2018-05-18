@@ -88,6 +88,7 @@ function LoadData(error, response){
 
 			map.legend(leg);
 
+			// resize map when window size is changed
 			d3.select(window).on('resize', function() {
         map.resize();
     });
